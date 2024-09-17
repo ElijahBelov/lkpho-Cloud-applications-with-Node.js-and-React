@@ -4,6 +4,8 @@ const express = require('express');
 // Create an instance of an Express application
 const app = new express();
 
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 // Initialize an array to store login details
 let loginDetails = [];
 
@@ -22,6 +24,16 @@ app.post("/login/:name", (req, res) => {
     loginDetails.push({ "name": req.params.name, "login_time": new Date() });
     res.send(req.params.name + ", You are logged in!");
 });
+
+ // Define a route to get the nth month
+ app.get("/fetchMonth/:num", (req, res) => {
+     let reqMonth = req.params.num;
+     if (reqMonth < 1 || reqMonth > 12){
+         res.send("Please request a valid month, between the 1st and 12th (inclusive)");
+     } else {
+         res.send("You requested the " + reqMonth + "th month, which is " + months[reqMonth - 1]);
+     }
+ });
 
 // Define a dynamic route to greet users by name
 app.get("/:name", (req, res) => {
